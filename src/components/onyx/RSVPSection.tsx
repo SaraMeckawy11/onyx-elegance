@@ -26,30 +26,28 @@ export default function RSVPSection() {
     setSubmitted(true);
   };
 
-  const inputClass = "w-full bg-transparent border-0 border-b border-border focus:border-foreground outline-none font-body text-[14px] text-foreground py-3 transition-colors duration-300 placeholder:text-muted-foreground";
-
   return (
     <motion.section
       ref={ref}
-      className="bg-background py-20 sm:py-32 px-6"
-      initial={{ opacity: 0, y: 30 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4 }}
+      className="bg-background section-padding px-6"
+      initial={{ opacity: 0 }}
+      animate={visible ? { opacity: 1 } : {}}
+      transition={{ duration: 0.8 }}
     >
-      <div className="flex items-center justify-center gap-6 mb-16">
-        <div className="w-16 h-[1px] bg-border" />
+      <div className="section-divider mb-12" />
+
+      <div className="heading-ornament mb-16">
         <h2 className="font-display italic text-3xl sm:text-5xl text-foreground">{t.rsvpHeading}</h2>
-        <div className="w-16 h-[1px] bg-border" />
       </div>
 
-      <div className="max-w-[560px] mx-auto">
+      <div className="max-w-[520px] mx-auto">
         <AnimatePresence mode="wait">
           {!submitted ? (
             <motion.form
               key="form"
               onSubmit={handleSubmit}
-              className="space-y-8"
-              exit={{ opacity: 0 }}
+              className="space-y-10"
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
               <input
@@ -58,7 +56,7 @@ export default function RSVPSection() {
                 placeholder={t.fullName}
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
-                className={inputClass}
+                className="input-elegant"
               />
               <input
                 type="number"
@@ -67,7 +65,7 @@ export default function RSVPSection() {
                 placeholder={t.guestsLabel}
                 value={form.guests}
                 onChange={e => setForm({ ...form, guests: Number(e.target.value) })}
-                className={inputClass}
+                className="input-elegant"
               />
 
               {/* Attending toggle */}
@@ -77,11 +75,12 @@ export default function RSVPSection() {
                     key={String(val)}
                     type="button"
                     onClick={() => setForm({ ...form, attending: val })}
-                    className={`flex-1 py-3 rounded-full font-body text-[13px] tracking-[0.1em] transition-all duration-300 ${
+                    className={`flex-1 py-3.5 font-body text-[11px] tracking-[0.15em] uppercase transition-all duration-500 ${
                       form.attending === val
                         ? 'bg-foreground text-primary-foreground'
-                        : 'border border-border text-foreground hover:bg-background'
+                        : 'border border-border text-foreground hover:border-accent/50'
                     }`}
+                    style={{ fontWeight: 300 }}
                   >
                     {val ? t.accept : t.decline}
                   </button>
@@ -93,14 +92,14 @@ export default function RSVPSection() {
                 <select
                   value={form.meal}
                   onChange={e => setForm({ ...form, meal: e.target.value })}
-                  className={`${inputClass} appearance-none cursor-pointer`}
+                  className="input-elegant appearance-none cursor-pointer"
                 >
                   <option value="meat">{t.meat}</option>
                   <option value="fish">{t.fish}</option>
                   <option value="vegetarian">{t.vegetarian}</option>
                   <option value="vegan">{t.vegan}</option>
                 </select>
-                <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-accent pointer-events-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-accent pointer-events-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <path d="M4 6l4 4 4-4" />
                 </svg>
               </div>
@@ -110,37 +109,37 @@ export default function RSVPSection() {
                 placeholder={t.message}
                 value={form.message}
                 onChange={e => setForm({ ...form, message: e.target.value })}
-                className={`${inputClass} resize-none`}
+                className="input-elegant resize-none"
               />
 
-              <button
+              <motion.button
                 type="submit"
-                className="w-full py-4 bg-foreground text-primary-foreground font-body text-[12px] tracking-[0.2em] uppercase rounded-lg transition-colors duration-500 hover:bg-accent"
+                className="w-full py-4 bg-foreground text-primary-foreground font-body text-[11px] tracking-[0.25em] uppercase transition-all duration-500 hover:bg-accent"
+                style={{ fontWeight: 300 }}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.99 }}
               >
                 {t.submit}
-              </button>
+              </motion.button>
             </motion.form>
           ) : (
             <motion.div
               key="confirmation"
-              className="flex flex-col items-center py-16"
-              initial={{ opacity: 0, scale: 0 }}
+              className="flex flex-col items-center py-20"
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'spring', duration: 0.6 }}
+              transition={{ type: 'spring', duration: 0.8 }}
             >
-              {/* Seal icon */}
+              {/* Checkmark seal */}
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
-                style={{
-                  backgroundColor: '#C4A882',
-                  backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 80%)',
-                }}
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-8 border border-accent/30"
+                style={{ background: 'linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold-light)))' }}
               >
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#FAF8F5" strokeWidth="1.5">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--bg-warm))" strokeWidth="1.5">
                   <path d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <p className="font-display italic text-[22px] text-foreground text-center">
+              <p className="font-display italic text-[22px] sm:text-[26px] text-foreground text-center leading-relaxed">
                 {t.confirmationMessage}
               </p>
             </motion.div>
