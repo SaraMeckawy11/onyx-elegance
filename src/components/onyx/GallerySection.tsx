@@ -12,21 +12,20 @@ export default function GallerySection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-card py-20 sm:py-32 px-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5 }}
+      className="bg-card section-padding px-6"
+      initial={{ opacity: 0 }}
+      animate={visible ? { opacity: 1 } : {}}
+      transition={{ duration: 0.8 }}
     >
-      <div className="flex items-center justify-center gap-6 mb-16">
-        <div className="w-16 h-[1px] bg-border" />
+      <div className="section-divider mb-12" />
+
+      <div className="heading-ornament mb-16">
         <h2 className="font-display italic text-3xl sm:text-5xl text-foreground">{t.capturedMoments}</h2>
-        <div className="w-16 h-[1px] bg-border" />
       </div>
 
-      {/* Desktop: asymmetric grid, Mobile: 2-col */}
-      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 auto-rows-[200px] md:auto-rows-[220px]">
+      {/* Masonry-like grid */}
+      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
         {themeConfig.gallery.map((src, i) => {
-          // Asymmetric spans for editorial feel
           const spanClass = i === 0
             ? 'md:row-span-2'
             : i === 3
@@ -37,19 +36,19 @@ export default function GallerySection() {
             <motion.div
               key={i}
               className={`relative overflow-hidden group ${spanClass}`}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={visible ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              style={{ border: '1px solid #FAF8F5' }}
+              style={{ minHeight: spanClass ? undefined : '200px' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={visible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
             >
               <img
                 src={src}
                 alt={`Gallery ${i + 1}`}
-                className="w-full h-full object-cover gallery-filter transition-transform duration-300 group-hover:scale-[1.03]"
+                className="w-full h-full object-cover gallery-filter transition-all duration-700 ease-out group-hover:scale-[1.04] group-hover:brightness-105"
                 loading="lazy"
               />
-              {/* Gold overlay on hover */}
-              <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/20 transition-colors duration-300" />
+              {/* Soft gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/0 via-transparent to-transparent group-hover:from-foreground/10 transition-all duration-500" />
             </motion.div>
           );
         })}

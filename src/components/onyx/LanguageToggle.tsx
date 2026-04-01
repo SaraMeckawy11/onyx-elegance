@@ -14,10 +14,13 @@ export default function LanguageToggle() {
   return (
     <motion.button
       onClick={toggle}
-      className="fixed top-5 right-5 z-[60] px-4 py-2 rounded-full bg-card border border-border font-body text-[12px] text-foreground"
-      style={{ boxShadow: '0 4px 16px rgba(107, 98, 89, 0.1)' }}
-      whileHover={{ y: -1 }}
-      whileTap={{ scale: 0.98 }}
+      className="fixed top-5 right-5 z-[60] w-10 h-10 flex items-center justify-center bg-card/80 backdrop-blur-sm border border-border/60 font-body text-[11px] text-foreground rounded-full"
+      style={{
+        fontWeight: 300,
+        boxShadow: '0 2px 12px hsl(var(--charcoal) / 0.06)',
+      }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       {lang === 'en' ? 'ع' : 'EN'}
     </motion.button>

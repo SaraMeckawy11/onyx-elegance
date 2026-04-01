@@ -68,6 +68,7 @@ export default {
           charcoal: "hsl(var(--charcoal))",
           taupe: "hsl(var(--taupe))",
           gold: "hsl(var(--gold))",
+          "gold-light": "hsl(var(--gold-light))",
           ivory: "hsl(var(--ivory-dark))",
           border: "hsl(var(--border-subtle))",
           label: "hsl(var(--muted-label))",

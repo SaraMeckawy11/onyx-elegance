@@ -19,15 +19,16 @@ function getTimeLeft(target: string) {
 function SlotNumber({ value }: { value: number }) {
   const display = String(value).padStart(2, '0');
   return (
-    <div className="relative h-[80px] sm:h-[100px] overflow-hidden">
+    <div className="relative h-[72px] sm:h-[96px] overflow-hidden">
       <AnimatePresence mode="popLayout">
         <motion.span
           key={value}
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: 24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -30, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-          className="font-display text-[52px] sm:text-[80px] text-foreground tabular-nums block"
+          exit={{ y: -24, opacity: 0 }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+          className="font-display text-[48px] sm:text-[72px] text-foreground tabular-nums block leading-none"
+          style={{ fontWeight: 300 }}
         >
           {display}
         </motion.span>
@@ -57,22 +58,37 @@ export default function CountdownSection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-card border-y border-border py-16 sm:py-24"
-      initial={{ opacity: 0, y: 20 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6 }}
+      className="relative bg-card py-16 sm:py-24"
+      initial={{ opacity: 0 }}
+      animate={visible ? { opacity: 1 } : {}}
+      transition={{ duration: 0.8 }}
     >
-      <div className="flex items-center justify-center gap-4 sm:gap-8">
+      {/* Top/bottom border lines */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 max-w-md h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 max-w-md h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+      <div className="flex items-center justify-center gap-6 sm:gap-10">
         {blocks.map((b, i) => (
-          <div key={i} className="flex items-center gap-4 sm:gap-8">
-            <div className="flex flex-col items-center">
+          <div key={i} className="flex items-center gap-6 sm:gap-10">
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={visible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
               <SlotNumber value={b.value} />
-              <span className="font-body text-[9px] tracking-[0.4em] uppercase mt-2" style={{ color: '#9E9488' }}>
+              <span
+                className="font-body text-[8px] sm:text-[9px] tracking-[0.45em] uppercase mt-3 text-muted-foreground"
+                style={{ fontWeight: 200 }}
+              >
                 {b.label}
               </span>
-            </div>
+            </motion.div>
             {i < 3 && (
-              <span className="w-1 h-1 rounded-full bg-accent self-center -mt-6" />
+              <div className="flex flex-col items-center gap-2 -mt-4">
+                <div className="w-[3px] h-[3px] rounded-full bg-accent/50" />
+                <div className="w-[3px] h-[3px] rounded-full bg-accent/30" />
+              </div>
             )}
           </div>
         ))}
