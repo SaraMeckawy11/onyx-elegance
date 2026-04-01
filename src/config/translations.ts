@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    touchToOpen: 'touch to open',
+    touchToOpen: "You're Invited",
     invitedLabel: 'YOU ARE CORDIALLY INVITED TO',
     theWeddingOf: 'THE WEDDING OF',
     tagline: 'Two souls, one promise.',
@@ -31,7 +31,7 @@ export const translations = {
     weddingDateDisplay: 'JUNE 14, 2025 · CAIRO, EGYPT',
   },
   ar: {
-    touchToOpen: 'المس للفتح',
+    touchToOpen: 'أنتم مدعوون',
     invitedLabel: 'أنتم مدعوون بكل حب إلى',
     theWeddingOf: 'حفل زفاف',
     tagline: 'روحان، وعدٌ واحد.',

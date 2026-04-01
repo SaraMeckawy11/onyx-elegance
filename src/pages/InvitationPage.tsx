@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { LangProvider } from '@/hooks/useLang';
 import SplashScreen from '@/components/onyx/SplashScreen';
 import HeroSection from '@/components/onyx/HeroSection';
@@ -18,27 +18,25 @@ export default function InvitationPage() {
   return (
     <LangProvider>
       <div className="paper-grain">
-        <AnimatePresence>
-          {!splashDone && <SplashScreen onComplete={() => setSplashDone(true)} />}
-        </AnimatePresence>
+        {/* Content renders underneath — revealed as splash fades */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: splashDone ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+        >
+          <ScrollProgress />
+          <LanguageToggle />
+          <HeroSection />
+          <CountdownSection />
+          <StorySection />
+          <EventsSection />
+          <RSVPSection />
+          <GallerySection />
+          <FooterSection />
+        </motion.div>
 
-        {splashDone && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ScrollProgress />
-            <LanguageToggle />
-            <HeroSection />
-            <CountdownSection />
-            <StorySection />
-            <EventsSection />
-            <RSVPSection />
-            <GallerySection />
-            <FooterSection />
-          </motion.div>
-        )}
+        {/* Splash overlay — fades out to reveal content */}
+        <SplashScreen onComplete={() => setSplashDone(true)} />
       </div>
     </LangProvider>
   );
