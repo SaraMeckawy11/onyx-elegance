@@ -13,9 +13,9 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
   const handleOpen = () => {
     if (phase !== 'idle') return;
     setPhase('cracking');
-    setTimeout(() => setPhase('opening'), 350);
-    setTimeout(() => setPhase('exiting'), 1100);
-    setTimeout(() => { setPhase('done'); onComplete(); }, 1700);
+    setTimeout(() => setPhase('opening'), 400);
+    setTimeout(() => setPhase('exiting'), 1200);
+    setTimeout(() => { setPhase('done'); onComplete(); }, 2200);
   };
 
   if (phase === 'done') return null;
@@ -23,18 +23,33 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
   return (
     <AnimatePresence>
       <motion.div
+        key="splash"
         className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
-        style={{ backgroundColor: '#FAF8F5' }}
+        style={{ backgroundColor: 'hsl(var(--bg-warm))' }}
         onClick={handleOpen}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        animate={phase === 'exiting' ? { opacity: 0 } : { opacity: 1 }}
+        transition={phase === 'exiting' ? { duration: 0.9, ease: [0.4, 0, 0.2, 1] } : {}}
       >
+        {/* "You're Invited" — elegant text above envelope */}
+        <motion.p
+          className="mb-8 font-display italic text-[11px] uppercase tracking-[0.45em]"
+          style={{ color: 'hsl(var(--taupe))' }}
+          animate={phase !== 'idle' ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {t.touchToOpen}
+        </motion.p>
+
         <motion.div
           className="relative"
-          animate={phase === 'exiting' ? { scale: 0.85, opacity: 0 } : {}}
-          transition={phase === 'exiting' ? { duration: 0.6, ease: 'easeIn' } : {}}
+          animate={
+            phase === 'exiting'
+              ? { scale: 0.9, y: -30 }
+              : {}
+          }
+          transition={phase === 'exiting' ? { duration: 0.8, ease: [0.4, 0, 0.2, 1] } : {}}
         >
-          {/* Envelope container — fills most of viewport */}
+          {/* Envelope container */}
           <div
             className="relative overflow-hidden"
             style={{
@@ -54,7 +69,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               }}
             />
 
-            {/* Diagonal fold lines — subtle crease shadows */}
+            {/* Diagonal fold lines */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
@@ -65,7 +80,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               }}
             />
 
-            {/* Bottom-left triangle flap overlay */}
+            {/* Bottom-left triangle flap */}
             <div className="absolute bottom-0 left-0 pointer-events-none" style={{ width: '50%', height: '100%' }}>
               <div
                 style={{
@@ -80,7 +95,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               />
             </div>
 
-            {/* Bottom-right triangle flap overlay */}
+            {/* Bottom-right triangle flap */}
             <div className="absolute bottom-0 right-0 pointer-events-none" style={{ width: '50%', height: '100%' }}>
               <div
                 style={{
@@ -95,7 +110,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               />
             </div>
 
-            {/* Top flap — the triangular V-flap that opens */}
+            {/* Top flap — opens with 3D flip */}
             <motion.div
               className="absolute left-0 right-0 origin-top"
               style={{
@@ -111,7 +126,6 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               }
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              {/* Flap shape via clip-path */}
               <div
                 className="w-full h-full"
                 style={{
@@ -123,7 +137,6 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
                   boxShadow: '0 4px 20px rgba(80,70,56,0.15)',
                 }}
               />
-              {/* Flap bottom shadow line */}
               <div
                 className="absolute bottom-0 left-0 right-0"
                 style={{
@@ -134,13 +147,10 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               />
             </motion.div>
 
-            {/* Bottom flap — upward pointing triangle */}
+            {/* Bottom flap */}
             <div
               className="absolute bottom-0 left-0 right-0 pointer-events-none"
-              style={{
-                height: '50%',
-                zIndex: 5,
-              }}
+              style={{ height: '50%', zIndex: 5 }}
             >
               <div
                 className="w-full h-full"
@@ -154,7 +164,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               />
             </div>
 
-            {/* Wax Seal — real image */}
+            {/* Wax Seal */}
             <motion.div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               style={{
@@ -166,9 +176,11 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               animate={
                 phase === 'cracking'
                   ? { scale: [1, 1.12, 0.94], rotate: [0, 2, -1, 0] }
-                  : {}
+                  : phase === 'opening' || phase === 'exiting'
+                    ? { opacity: 0, scale: 0.6 }
+                    : {}
               }
-              transition={{ duration: 0.35 }}
+              transition={{ duration: 0.4 }}
             >
               <img
                 src={waxSealImg}
@@ -180,14 +192,17 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
           </div>
         </motion.div>
 
-        {/* Touch to open */}
-        <motion.p
-          className="mt-10 font-display italic text-[13px] tracking-[0.3em] animate-pulse-fade"
-          style={{ color: '#9E9488' }}
+        {/* Subtle tap hint */}
+        <motion.div
+          className="mt-12 flex flex-col items-center gap-2"
           animate={phase !== 'idle' ? { opacity: 0 } : {}}
+          transition={{ duration: 0.3 }}
         >
-          {t.touchToOpen}
-        </motion.p>
+          <div
+            className="w-px bg-gradient-to-b from-transparent via-current to-transparent animate-scroll-line"
+            style={{ color: 'hsl(var(--taupe))' }}
+          />
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );

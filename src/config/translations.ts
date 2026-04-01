@@ -31,7 +31,7 @@ export const translations = {
     weddingDateDisplay: 'JUNE 14, 2025 · CAIRO, EGYPT',
   },
   ar: {
-    touchToOpen: 'المس للفتح',
+    touchToOpen: 'أنتم مدعوون',
     invitedLabel: 'أنتم مدعوون بكل حب إلى',
     theWeddingOf: 'حفل زفاف',
     tagline: 'روحان، وعدٌ واحد.',
