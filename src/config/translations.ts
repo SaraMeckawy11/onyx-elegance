@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    touchToOpen: 'touch to open',
+    touchToOpen: "You're Invited",
     invitedLabel: 'YOU ARE CORDIALLY INVITED TO',
     theWeddingOf: 'THE WEDDING OF',
     tagline: 'Two souls, one promise.',
